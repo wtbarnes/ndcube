@@ -26,7 +26,7 @@ To slice ``my_cube``, simply do something like:
 
   >>> import astropy.units as u
   >>> import astropy.wcs
-  >>> import numpy as np
+  >>> import numpy.array_api as np
   >>> from astropy.nddata import StdDevUncertainty
 
   >>> from ndcube import NDCube
@@ -168,7 +168,7 @@ However, with `~ndcube.NDCubeSequence` this becomes as simple as indexing a sing
 
   >>> import astropy.units as u
   >>> import astropy.wcs
-  >>> import numpy as np
+  >>> import numpy.array_api as np
   >>> from ndcube import NDCube, NDCubeSequence
 
   >>> # Define data arrays.

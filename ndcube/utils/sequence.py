@@ -6,7 +6,7 @@ Utilities for ndcube sequence.
 from copy import deepcopy
 from collections import namedtuple
 
-import numpy as np
+import numpy.array_api as np
 
 __all__ = ['SequenceItem',
            'cube_like_index_to_sequence_and_common_axis_indices',

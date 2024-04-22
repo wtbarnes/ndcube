@@ -40,7 +40,7 @@ First we can provide :meth:`~ndcube.NDCube.axis_world_coords` with the array axi
   :summary: Click to reveal/hide instantiation of the NDCube.
 
   >>> import astropy.wcs
-  >>> import numpy as np
+  >>> import numpy.array_api as np
 
   >>> from ndcube import NDCube
 
@@ -342,7 +342,7 @@ To demonstrate this, let's call `ndcube.NDCubeSequence.sequence_axis_coords` on 
 
   >>> import astropy.units as u
   >>> import astropy.wcs
-  >>> import numpy as np
+  >>> import numpy.array_api as np
   >>> from ndcube import NDCube, NDCubeSequence
 
   >>> # Define data arrays.
@@ -407,7 +407,7 @@ The coordinates are returned in world axis order.
 
   >>> import astropy.units as u
   >>> import astropy.wcs
-  >>> import numpy as np
+  >>> import numpy.array_api as np
 
   >>> from ndcube import NDCube, NDCubeSequence
 

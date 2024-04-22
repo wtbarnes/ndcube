@@ -1,6 +1,6 @@
 import astropy.units as u
 import gwcs.coordinate_frames as cf
-import numpy as np
+import numpy.array_api as np
 import pytest
 from astropy.coordinates import SkyCoord
 from astropy.time import Time
@@ -265,7 +265,7 @@ def test_join_3d(lut_2d_skycoord_mesh, lut_1d_wave):
 @pytest.mark.xfail(reason=">1D Tables not supported")
 def test_2d_quantity():
     shape = (3, 3)
-    data = np.arange(np.product(shape)).reshape(shape) * u.m / u.s
+    data = np.arange(np.prod(np.asarray(shape))).reshape(shape) * u.m / u.s
 
     ltc = QuantityTableCoordinate(data)
     assert u.allclose(ltc.wcs.pixel_to_world(0, 0), 0 * u.m / u.s)
@@ -722,9 +722,9 @@ def test_skycoord_interpolate_no_mesh(lut_2d_skycoord_no_mesh):
     lutc = lut_2d_skycoord_no_mesh
     new_array_grids = np.meshgrid(np.arange(0.5, 2), np.arange(0, 3))
     output = lutc.interpolate(*new_array_grids)
-    expected1 = np.array([[1.5, 4.5],
-                          [2.5, 5.5],
-                          [3.5, 6.5]])
+    expected1 = np.asarray([[1.5, 4.5],
+                            [2.5, 5.5],
+                            [3.5, 6.5]])
     expected2 = expected1 + 9
     expected_table = SkyCoord(expected1, expected2, unit=(u.deg, u.deg))
     assert u.allclose(output.table.ra, expected_table.ra)

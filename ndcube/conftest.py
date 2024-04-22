@@ -7,7 +7,7 @@ import logging
 import astropy.nddata
 import astropy.units as u
 import dask.array
-import numpy as np
+import numpy.array_api as np
 import pytest
 from astropy.coordinates import SkyCoord
 from astropy.nddata import StdDevUncertainty
@@ -36,15 +36,15 @@ console_logger.setLevel('INFO')
 
 
 def skycoord_2d_lut(shape):
-    total_len = np.product(shape)
+    total_len = np.prod(np.asarray(shape))
     data = (np.arange(total_len).reshape(shape),
             np.arange(total_len, total_len * 2).reshape(shape))
     return SkyCoord(*data, unit=u.deg)
 
 
 def data_nd(shape):
-    nelem = np.product(shape)
-    return np.arange(nelem).reshape(shape)
+    nelem = np.prod(np.asarray(shape))
+    return np.reshape(np.arange(float(nelem)), shape)
 
 
 def time_extra_coords(shape, axis, base):
@@ -446,8 +446,8 @@ def ndcube_3d_ln_lt_l_ec_time(wcs_3d_l_lt_ln, time_and_simple_extra_coords_2d):
 
 @pytest.fixture
 def ndcube_3d_rotated(wcs_3d_ln_lt_t_rotated, simple_extra_coords_3d):
-    data_rotated = np.array([[[1, 2, 3, 4, 6], [2, 4, 5, 3, 1], [0, -1, 2, 4, 2], [3, 5, 1, 2, 0]],
-                             [[2, 4, 5, 1, 3], [1, 5, 2, 2, 4], [2, 3, 4, 0, 5], [0, 1, 2, 3, 4]]])
+    data_rotated = np.asarray([[[1, 2, 3, 4, 6], [2, 4, 5, 3, 1], [0, -1, 2, 4, 2], [3, 5, 1, 2, 0]],
+                               [[2, 4, 5, 1, 3], [1, 5, 2, 2, 4], [2, 3, 4, 0, 5], [0, 1, 2, 3, 4]]])
     mask_rotated = data_rotated >= 0
     cube = NDCube(
         data_rotated,
@@ -511,7 +511,7 @@ def ndcube_2d_ln_lt_uncert_ec(wcs_2d_lt_ln):
 @pytest.fixture
 def ndcube_2d_ln_lt_units(wcs_2d_lt_ln):
     shape = (10, 12)
-    data_cube = data_nd(shape).astype(float)
+    data_cube = np.astype(data_nd(shape), float)
     return NDCube(data_cube, wcs=wcs_2d_lt_ln, unit=u.ct)
 
 
@@ -519,7 +519,7 @@ def ndcube_2d_ln_lt_units(wcs_2d_lt_ln):
 def ndcube_2d_dask(wcs_2d_lt_ln):
     shape = (8, 4)
     chunks = 2
-    data = data_nd(shape).astype(float)
+    data = np.astype(data_nd(shape), float)
     da = dask.array.asarray(data, chunks=chunks)
     mask = np.zeros(shape, dtype=bool)
     da_mask = dask.array.asarray(mask, chunks=chunks)

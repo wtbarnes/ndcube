@@ -1,7 +1,7 @@
 import unittest
 
 import astropy.units as u
-import numpy as np
+import numpy.array_api as np
 import pytest
 from astropy.time import Time, TimeDelta
 

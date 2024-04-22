@@ -2,7 +2,8 @@ import warnings
 
 import astropy.units as u
 import matplotlib.pyplot as plt
-import numpy as np
+import numpy
+import numpy.array_api as np
 from astropy.utils.exceptions import AstropyUserWarning
 from astropy.visualization.wcsaxes import WCSAxes
 from mpl_animators import ArrayAnimatorWCS
@@ -134,10 +135,10 @@ class MatplotlibPlotter(BasePlotter):
 
         # Combine data and uncertainty with mask.
         if self._ndcube.mask is not None:
-            ydata = np.ma.masked_array(ydata, self._ndcube.mask)
+            ydata = numpy.ma.masked_array(ydata, self._ndcube.mask)
 
             if yerror is not None:
-                yerror = np.ma.masked_array(yerror, self._ndcube.mask)
+                yerror = numpy.ma.masked_array(yerror, self._ndcube.mask)
 
         if yerror is not None:
             # We plot against pixel coordinates
@@ -237,7 +238,7 @@ class MatplotlibPlotter(BasePlotter):
 
         # Combine data values with mask.
         if self._ndcube.mask is not None:
-            data = np.ma.masked_array(data, self._ndcube.mask)
+            data = numpy.ma.masked_array(data, self._ndcube.mask)
 
         coord_params = {}
         if axes_units is not None:

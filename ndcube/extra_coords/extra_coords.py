@@ -4,7 +4,7 @@ from numbers import Integral
 from functools import reduce, partial
 
 import astropy.units as u
-import numpy as np
+import numpy.array_api as np
 from astropy.coordinates import SkyCoord
 from astropy.time import Time
 from astropy.wcs import WCS
@@ -256,7 +256,7 @@ class ExtraCoords(ExtraCoordsABC):
         # pixel dimensions (numbers in the list)
         lts = [list([lt[0]] if isinstance(lt[0], Integral) else lt[0]) for lt in self._lookup_tables]
         converter = partial(convert_between_array_and_pixel_axes, naxes=len(self._ndcube.dimensions))
-        pixel_indicies = [list(converter(np.array(ids))) for ids in lts]
+        pixel_indicies = [list(converter(np.asarray(ids))) for ids in lts]
         return tuple(reduce(list.__add__, pixel_indicies))
 
     @mapping.setter
@@ -488,7 +488,7 @@ class ExtraCoords(ExtraCoordsABC):
             x = np.arange(c, d+f, f)
             x = x[x <= d-1]
             new_grids.append(x)
-        new_grids = np.array(new_grids, dtype=object)
+        new_grids = np.asarray(new_grids, dtype=object)
         for array_axes, coord in self._lookup_tables:
             if np.isscalar(array_axes):
                 new_coord = coord.interpolate(new_grids[array_axes], **kwargs)

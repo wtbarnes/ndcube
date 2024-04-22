@@ -11,7 +11,7 @@ For example, there may be a region of interest you would like to crop out along 
 of your cube. In this example, this method to slice an `~ndcube.NDCube` are illustrated.
 """
 import astropy.wcs
-import numpy as np
+import numpy.array_api as np
 from astropy import units as u
 from astropy.coordinates import SkyCoord, SpectralCoord
 from sunpy.coordinates import frames

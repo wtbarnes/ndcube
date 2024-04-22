@@ -8,7 +8,8 @@ from collections.abc import Mapping
 
 import astropy.nddata
 import astropy.units as u
-import numpy as np
+import numpy
+import numpy.array_api as np
 from astropy.units import UnitsError
 
 try:
@@ -34,7 +35,7 @@ __all__ = ['NDCubeABC', 'NDCubeLinkedDescriptor']
 
 # Create mapping to masked array types based on data array type for use in analysis methods.
 ARRAY_MASK_MAP = {}
-ARRAY_MASK_MAP[np.ndarray] = np.ma.masked_array
+ARRAY_MASK_MAP[numpy.ndarray] = numpy.ma.masked_array
 try:
     import dask.array
     ARRAY_MASK_MAP[dask.array.core.Array] = dask.array.ma.masked_array
@@ -419,7 +420,7 @@ class NDCubeBase(NDCubeABC, astropy.nddata.NDData, NDCubeSlicingMixin):
     def array_axis_physical_types(self):
         # Docstring in NDCubeABC.
         wcs = self.combined_wcs
-        world_axis_physical_types = np.array(wcs.world_axis_physical_types)
+        world_axis_physical_types = np.asarray(wcs.world_axis_physical_types)
         axis_correlation_matrix = wcs.axis_correlation_matrix
         return [tuple(world_axis_physical_types[axis_correlation_matrix[:, i]])
                 for i in range(axis_correlation_matrix.shape[1])][::-1]
@@ -437,7 +438,7 @@ class NDCubeBase(NDCubeABC, astropy.nddata.NDData, NDCubeSlicingMixin):
         # Else make pixel centers.
         pixel_shape = self.data.shape[::-1]
         if pixel_corners:
-            pixel_shape = tuple(np.array(pixel_shape) + 1)
+            pixel_shape = tuple(np.asarray(pixel_shape) + 1)
             ranges = [np.arange(i) - 0.5 for i in pixel_shape]
         else:
             ranges = [np.arange(i) for i in pixel_shape]
@@ -497,7 +498,7 @@ class NDCubeBase(NDCubeABC, astropy.nddata.NDData, NDCubeSlicingMixin):
         if not axes:
             return tuple(axes_coords)
 
-        object_names = np.array([wao_comp[0] for wao_comp in wcs.world_axis_object_components])
+        object_names = np.asarray([wao_comp[0] for wao_comp in wcs.world_axis_object_components])
         unique_obj_names = utils.misc.unique_sorted(object_names)
         world_axes_for_obj = [np.where(object_names == name)[0] for name in unique_obj_names]
 
@@ -532,7 +533,7 @@ class NDCubeBase(NDCubeABC, astropy.nddata.NDData, NDCubeSlicingMixin):
         if axes:
             world_indices = utils.wcs.calculate_world_indices_from_axes(wcs, axes)
             axes_coords = [axes_coords[i] for i in world_indices]
-            world_axis_physical_types = tuple(np.array(world_axis_physical_types)[world_indices])
+            world_axis_physical_types = tuple(np.asarray(world_axis_physical_types)[world_indices])
 
         # Return in array order.
         # First replace characters in physical types forbidden for namedtuple identifiers.
@@ -1019,7 +1020,7 @@ class NDCube(NDCubeBase):
         applying the function over the odd-numbered axes. To demonstrate,
         consider the following example. Let's say you have an array::
 
-             x = np.array([[0, 0, 0, 1, 1, 1],
+             x = np.asarray([[0, 0, 0, 1, 1, 1],
                            [0, 0, 1, 1, 0, 0],
                            [1, 1, 0, 0, 1, 1],
                            [0, 0, 0, 0, 1, 1],

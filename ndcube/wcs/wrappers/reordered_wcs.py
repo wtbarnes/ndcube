@@ -1,6 +1,6 @@
 
 
-import numpy as np
+import numpy.array_api as np
 from astropy.wcs.wcsapi.wrappers.base import BaseWCSWrapper
 
 __all__ = ['ReorderedLowLevelWCS']

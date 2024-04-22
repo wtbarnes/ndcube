@@ -51,7 +51,7 @@ Remember that due to convention, the order of WCS axes is reversed relative to t
 .. code-block:: python
 
   >>> import astropy.wcs
-  >>> import numpy as np
+  >>> import numpy.array_api as np
 
   >>> from ndcube import NDCube
 
@@ -80,7 +80,7 @@ To instantiate a more complex `~ndcube.NDCube` with metadata, a data unit, uncer
 
   >>> import astropy.units as u
   >>> import astropy.wcs
-  >>> import numpy as np
+  >>> import numpy.array_api as np
   >>> from astropy.nddata import StdDevUncertainty
 
   >>> from ndcube import NDCube
@@ -218,7 +218,7 @@ Let's say we have four 3-D NDCubes with shapes of ``(4, 4, 5)`` and physical typ
 
   >>> import astropy.units as u
   >>> import astropy.wcs
-  >>> import numpy as np
+  >>> import numpy.array_api as np
   >>> from ndcube import NDCube, NDCubeSequence
 
   >>> # Define data arrays.

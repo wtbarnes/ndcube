@@ -2,7 +2,7 @@ from unittest.mock import MagicMock
 
 import astropy.units as u
 import gwcs
-import numpy as np
+import numpy.array_api as np
 import pytest
 from astropy.coordinates import SkyCoord
 from astropy.time import Time, TimeDelta
@@ -42,7 +42,7 @@ def skycoord_2d_lut():
 @pytest.fixture
 def quantity_2d_lut():
     ec_shape = (3, 3)
-    return np.arange(np.product(ec_shape)).reshape(ec_shape) * u.m / u.s
+    return np.arange(np.prod(np.asarray(ec_shape))).reshape(ec_shape) * u.m / u.s
 
 
 # ExtraCoords from WCS

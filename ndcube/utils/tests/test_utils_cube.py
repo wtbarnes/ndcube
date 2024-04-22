@@ -1,5 +1,5 @@
 
-import numpy as np
+import numpy.array_api as np
 import pytest
 from astropy.nddata import StdDevUncertainty
 
@@ -8,10 +8,10 @@ from ndcube.utils.cube import propagate_rebin_uncertainties
 
 @pytest.fixture
 def stacked_pixel_data():
-    return np.array([[[0, 2, 4], [12, 14, 16]],
-                     [[1, 3, 5], [13, 15, 17]],
-                     [[6, 8, 10], [18, 20, 22]],
-                     [[7, 9, 11], [19, 21, 23]]], dtype=float) + 1
+    return np.asarray([[[0, 2, 4], [12, 14, 16]],
+                       [[1, 3, 5], [13, 15, 17]],
+                       [[6, 8, 10], [18, 20, 22]],
+                       [[7, 9, 11], [19, 21, 23]]], dtype=float) + 1
 
 
 def test_propagate_rebin_uncertainties_mean(stacked_pixel_data):
@@ -66,7 +66,7 @@ def test_propagate_rebin_uncertainties_prod(stacked_pixel_data):
 
     # Run function
     output = propagate_rebin_uncertainties(uncertainty, data, mask,
-                                           np.product, operation_ignores_mask=False)
+                                           np.prod, operation_ignores_mask=False)
 
     assert type(output) is type(expected)
     assert np.allclose(output.array, expected.array)

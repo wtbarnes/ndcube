@@ -3,7 +3,7 @@ import numbers
 import textwrap
 
 import astropy.units as u
-import numpy as np
+import numpy.array_api as np
 
 from ndcube import utils
 from ndcube.visualization.descriptor import PlotterDescriptor
@@ -168,7 +168,7 @@ class NDCubeSequenceBase:
             exploded_coord = []
             for cube_idx in range(len(common_coords)):
                 coord = common_coords[cube_idx][coord_idx]
-                axis = np.where(np.array(mappings[cube_idx][coord_idx]) == common_axis)[0][0]
+                axis = np.where(np.asarray(mappings[cube_idx][coord_idx]) == common_axis)[0][0]
                 item = [slice(None)] * len(coord.shape)
                 for i in range(coord.shape[axis]):
                     item[axis] = i

@@ -6,7 +6,7 @@ from collections import defaultdict
 import astropy.units as u
 import gwcs
 import gwcs.coordinate_frames as cf
-import numpy as np
+import numpy.array_api as np
 from astropy.coordinates import SkyCoord
 from astropy.modeling import models
 from astropy.modeling.models import tabular_model
@@ -306,7 +306,7 @@ class QuantityTableCoordinate(BaseTableCoordinate):
         if not all([t.unit.is_equivalent(tables[0].unit) for t in tables]):
             raise u.UnitsError("All tables must have equivalent units.")
         ndim = len(tables)
-        dims = np.array([t.ndim for t in tables])
+        dims = np.asarray([t.ndim for t in tables])
         if any(dims > 1):
             raise ValueError(
                 "Currently all tables must be 1-D. If you need >1D support, please "

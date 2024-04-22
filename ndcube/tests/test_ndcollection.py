@@ -1,7 +1,7 @@
 
 import astropy.units as u
 import astropy.wcs
-import numpy as np
+import numpy.array_api as np
 import pytest
 
 from ndcube import NDCollection, NDCube, NDCubeSequence
@@ -143,7 +143,7 @@ def test_collection_update_without_aligned_axes():
 
 @pytest.mark.parametrize("collection, expected_aligned_dimensions", [
     (cube_collection, [4, 5]*u.pix),
-    (seq_collection, np.array([2*u.pix, 3*u.pix, 4*u.pix, 5*u.pix], dtype=object))])
+    (seq_collection, np.asarray([2*u.pix, 3*u.pix, 4*u.pix, 5*u.pix], dtype=object))])
 def test_aligned_dimensions(collection, expected_aligned_dimensions):
     assert all(collection.aligned_dimensions == expected_aligned_dimensions)
 

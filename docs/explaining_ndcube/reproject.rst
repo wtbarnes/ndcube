@@ -23,7 +23,7 @@ To reproject an `~ndcube.NDCube`, simply do:
   :summary: Expand to see <span class="pre">my_cube</span> instantiated.
 
   >>> import astropy.wcs
-  >>> import numpy as np
+  >>> import numpy.array_api as np
   >>> from ndcube import NDCube
 
   >>> # Define data array.

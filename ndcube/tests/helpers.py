@@ -10,7 +10,7 @@ import astropy
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import mpl_animators
-import numpy as np
+import numpy.array_api as np
 import pytest
 from astropy.wcs.wcsapi.fitswcs import SlicedFITSWCS
 from astropy.wcs.wcsapi.low_level_api import BaseLowLevelWCS

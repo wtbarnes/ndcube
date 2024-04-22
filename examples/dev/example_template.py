@@ -10,7 +10,7 @@ thing>. Include links to referenced packages like this: `sunpy.map` to
 show the sunpy.map or like this `~sunpy.map` to show just 'map'.
 """
 import matplotlib.pyplot as plt
-import numpy as np
+import numpy.array_api as np
 
 ##############################################################################
 # This code block is executed, although it produces no output. Lines starting

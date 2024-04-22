@@ -1,6 +1,6 @@
 from itertools import product
 
-import numpy as np
+import numpy.array_api as np
 import pytest
 from astropy import units as u
 from astropy.coordinates import SkyCoord
@@ -65,9 +65,9 @@ def test_celestial_spectral_ape14(spectral_wcs, celestial_wcs):
     assert tuple(wcs.world_axis_names) == ('Frequency',
                                            'Right Ascension',
                                            'Declination')
-    assert_equal(wcs.axis_correlation_matrix, np.array([[1, 0, 0],
-                                                        [0, 1, 1],
-                                                        [0, 1, 1]]))
+    assert_equal(wcs.axis_correlation_matrix, np.asarray([[1, 0, 0],
+                                                          [0, 1, 1],
+                                                          [0, 1, 1]]))
 
     # If any of the individual shapes are None, return None overall
     assert wcs.pixel_shape is None
@@ -88,12 +88,12 @@ def test_celestial_spectral_ape14(spectral_wcs, celestial_wcs):
     assert_allclose(wcs.world_to_pixel_values(*world_scalar), pixel_scalar)
     assert_allclose(wcs.world_to_array_index_values(*world_scalar), [1, 4, 2])
 
-    pixel_array = (np.array([2.3, 2.4]),
-                   np.array([4.3, 4.4]),
-                   np.array([1.3, 1.4]))
-    world_array = (np.array([-1.91e10, -1.88e10]),
-                   np.array([5.4, 5.2]),
-                   np.array([-9.4, -9.2]))
+    pixel_array = (np.asarray([2.3, 2.4]),
+                   np.asarray([4.3, 4.4]),
+                   np.asarray([1.3, 1.4]))
+    world_array = (np.asarray([-1.91e10, -1.88e10]),
+                   np.asarray([5.4, 5.2]),
+                   np.asarray([-9.4, -9.2]))
     assert_allclose(wcs.pixel_to_world_values(*pixel_array), world_array)
     assert_allclose(wcs.array_index_to_world_values(*pixel_array[::-1]), world_array)
     assert_allclose(wcs.world_to_pixel_values(*world_array), pixel_array)

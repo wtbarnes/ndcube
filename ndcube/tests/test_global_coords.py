@@ -1,5 +1,5 @@
 import astropy.units as u
-import numpy as np
+import numpy.array_api as np
 import pytest
 from astropy.coordinates import SkyCoord
 from astropy.coordinates.spectral_coordinate import SpectralCoord
@@ -205,9 +205,9 @@ class MultiCoordWCS(BaseLowLevelWCS, HighLevelWCSMixin):
 
     @property
     def axis_correlation_matrix(self):
-        return np.array([[1, 1, 0],
-                         [1, 1, 0],
-                         [0, 0, 1]])
+        return np.asarray([[1, 1, 0],
+                           [1, 1, 0],
+                           [0, 0, 1]])
 
     @property
     def world_axis_physical_types(self):

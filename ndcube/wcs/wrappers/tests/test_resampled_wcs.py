@@ -1,6 +1,6 @@
 import numbers
 
-import numpy as np
+import numpy.array_api as np
 import pytest
 from astropy import units as u
 from astropy.coordinates import SkyCoord
@@ -71,10 +71,10 @@ def test_2d(celestial_wcs):
     assert_allclose(wcs.world_to_pixel_values(*world_scalar), pixel_scalar)
     assert_allclose(wcs.world_to_array_index_values(*world_scalar), [4, 2])
 
-    pixel_array = (np.array([2.3, 2.4]),
-                   np.array([4.3, 4.4]))
-    world_array = (np.array([12.16, 12.08]),
-                   np.array([13.8, 14.4]))
+    pixel_array = (np.asarray([2.3, 2.4]),
+                   np.asarray([4.3, 4.4]))
+    world_array = (np.asarray([12.16, 12.08]),
+                   np.asarray([13.8, 14.4]))
     assert_allclose(wcs.pixel_to_world_values(*pixel_array), world_array)
     assert_allclose(wcs.array_index_to_world_values(*pixel_array[::-1]), world_array)
     assert_allclose(wcs.world_to_pixel_values(*world_array), pixel_array)

@@ -20,7 +20,7 @@ Click the "Source code" link immediately below to see this `~ndcube.NDCube` inst
 
   >>> import astropy.units as u
   >>> import astropy.wcs
-  >>> import numpy as np
+  >>> import numpy.array_api as np
   >>> from astropy.nddata import StdDevUncertainty
 
   >>> from ndcube import NDCube
@@ -247,7 +247,7 @@ To extract and plot the data.
 
   >>> import astropy.units as u
   >>> import astropy.wcs
-  >>> import numpy as np
+  >>> import numpy.array_api as np
   >>> from astropy.time import Time, TimeDelta
 
   >>> from ndcube import ExtraCoords, NDCube, NDCubeSequence
@@ -312,7 +312,7 @@ Therefore, we could do:
 
     >>> import matplotlib.pyplot as plt
     >>> # Get intensity at pixel 0, 0, 0 in each cube.
-    >>> intensity = np.array([cube.data[0, 0, 0] for cube in my_sequence])
+    >>> intensity = np.asarray([cube.data[0, 0, 0] for cube in my_sequence])
     >>> times = Time([cube.axis_world_coords('time', wcs=cube.combined_wcs)[0][0] for cube in my_sequence])
     >>> plt.plot(times.datetime, intensity)  # doctest: +SKIP
     >>> plt.xlabel("Time")  # doctest: +SKIP

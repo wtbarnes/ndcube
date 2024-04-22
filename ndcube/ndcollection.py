@@ -1,7 +1,7 @@
 import textwrap
 import collections.abc
 
-import numpy as np
+import numpy.array_api as np
 
 import ndcube.utils.collection as collection_utils
 
@@ -103,7 +103,7 @@ class NDCollection(dict):
         """
         if self.aligned_axes is not None:
             return np.asanyarray(self[self._first_key].dimensions, dtype=object)[
-                np.array(self.aligned_axes[self._first_key])
+                np.asarray(self.aligned_axes[self._first_key])
             ]
 
     @property
@@ -119,8 +119,8 @@ class NDCollection(dict):
         if self.aligned_axes is None:
             return None
         # Get array axis physical types for each aligned axis for all members of collection.
-        collection_types = [np.array(cube.array_axis_physical_types,
-                                     dtype=object)[np.array(self.aligned_axes[name])]
+        collection_types = [np.asarray(cube.array_axis_physical_types,
+                                       dtype=object)[np.asarray(self.aligned_axes[name])]
                             for name, cube in self.items()]
         # Return physical types common to all members of collection for each axis.
         return [tuple(set.intersection(*[set(cube_types[i]) for cube_types in collection_types]))
@@ -215,7 +215,7 @@ class NDCollection(dict):
 
         # Use indices of dropped axes determine above to update aligned_axes
         # by removing any that have been dropped.
-        drop_aligned_axes_indices = np.array(drop_aligned_axes_indices)
+        drop_aligned_axes_indices = np.asarray(drop_aligned_axes_indices)
         new_aligned_axes = collection_utils._update_aligned_axes(
             drop_aligned_axes_indices, self.aligned_axes, self._first_key)
 

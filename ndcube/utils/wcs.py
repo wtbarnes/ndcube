@@ -5,7 +5,7 @@ Miscellaneous WCS utilities.
 import numbers
 from collections import UserDict
 
-import numpy as np
+import numpy.array_api as np
 from astropy.wcs.utils import pixel_to_pixel
 from astropy.wcs.wcsapi import BaseHighLevelWCS, BaseLowLevelWCS, low_level_api
 
@@ -146,7 +146,7 @@ def pixel_axis_to_physical_types(pixel_axis, wcs):
     physical_types: `numpy.ndarray` of `str`
         The physical types corresponding to the pixel axis.
     """
-    return np.array(wcs.world_axis_physical_types)[wcs.axis_correlation_matrix[:, pixel_axis]]
+    return np.asarray(wcs.world_axis_physical_types)[wcs.axis_correlation_matrix[:, pixel_axis]]
 
 
 def physical_type_to_pixel_axes(physical_type, wcs):
@@ -275,7 +275,7 @@ def get_dependent_array_axes(array_axis, axis_correlation_matrix):
         Sorted indices of array axes dependent on input axis in numpy ordering convention.
     """
     naxes = axis_correlation_matrix.shape[1]
-    pixel_axis = convert_between_array_and_pixel_axes(np.array([array_axis], dtype=int), naxes)[0]
+    pixel_axis = convert_between_array_and_pixel_axes(np.asarray([array_axis], dtype=int), naxes)[0]
     dependent_pixel_axes = get_dependent_pixel_axes(pixel_axis, axis_correlation_matrix)
     dependent_array_axes = convert_between_array_and_pixel_axes(dependent_pixel_axes, naxes)
     return np.sort(dependent_array_axes)
@@ -331,7 +331,7 @@ def get_dependent_physical_types(physical_type, wcs):
     world_axis_physical_types = wcs.world_axis_physical_types
     world_axis = physical_type_to_world_axis(physical_type, world_axis_physical_types)
     dependent_world_axes = get_dependent_world_axes(world_axis, wcs.axis_correlation_matrix)
-    dependent_physical_types = np.array(world_axis_physical_types)[dependent_world_axes]
+    dependent_physical_types = np.asarray(world_axis_physical_types)[dependent_world_axes]
     return dependent_physical_types
 
 
@@ -362,7 +362,7 @@ def calculate_world_indices_from_axes(wcs, axes):
         if isinstance(axis, numbers.Integral):
             # If axis is int, it is a numpy order array axis.
             # Convert to pixel axis in WCS order.
-            axis = convert_between_array_and_pixel_axes(np.array([axis]), wcs.pixel_n_dim)[0]
+            axis = convert_between_array_and_pixel_axes(np.asarray([axis]), wcs.pixel_n_dim)[0]
             # Get WCS world axis indices that correspond to the WCS pixel axis
             # and add to list of indices of WCS world axes whose coords will be returned.
             world_indices += list(pixel_axis_to_world_axes(axis, wcs.axis_correlation_matrix))
@@ -374,7 +374,7 @@ def calculate_world_indices_from_axes(wcs, axes):
                             "Must be of type (numbers.Integral, str)")
     # Use inferred world axes to extract the desired coord value
     # and corresponding physical types.
-    return np.unique(np.array(world_indices, dtype=int))
+    return np.unique(np.asarray(world_indices, dtype=int))
 
 
 def array_indices_for_world_objects(wcs, axes=None):
@@ -411,8 +411,8 @@ def array_indices_for_world_objects(wcs, axes=None):
         world_indices = calculate_world_indices_from_axes(wcs, axes)
     else:
         world_indices = np.arange(wcs.world_n_dim)
-    object_names = np.array([wao_comp[0]
-                             for wao_comp in wcs.low_level_wcs.world_axis_object_components])
+    object_names = np.asarray([wao_comp[0]
+                               for wao_comp in wcs.low_level_wcs.world_axis_object_components])
     array_indices = [[]] * len(object_names)
     for world_index, oname in enumerate(object_names):
         # If this world index is deselected by axes= then skip

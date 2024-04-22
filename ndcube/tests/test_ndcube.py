@@ -4,7 +4,8 @@ from textwrap import dedent
 import astropy.units as u
 import astropy.wcs
 import dask.array
-import numpy as np
+import numpy
+import numpy.array_api as np
 import pytest
 from astropy.coordinates import SkyCoord, SpectralCoord
 from astropy.io import fits
@@ -21,7 +22,7 @@ from ndcube.tests import helpers
 
 
 def generate_data(shape):
-    data = np.arange(np.product(shape))
+    data = np.arange(np.prod(np.asarray(shape)))
     return data.reshape(shape)
 
 
@@ -32,15 +33,15 @@ def test_wcs_object(all_ndcubes):
 
 @pytest.mark.parametrize("ndc, item",
                          (
-                             ("ndcube_3d_ln_lt_l", np.s_[:, :, 0]),
-                             ("ndcube_3d_ln_lt_l", np.s_[..., 0]),
-                             ("ndcube_3d_ln_lt_l", np.s_[1:2, 1:2, 0]),
-                             ("ndcube_3d_ln_lt_l", np.s_[..., 0]),
-                             ("ndcube_3d_ln_lt_l", np.s_[:, :, 0]),
-                             ("ndcube_3d_ln_lt_l", np.s_[1:2, 1:2, 0]),
-                             ("ndcube_4d_ln_lt_l_t", np.s_[:, :, 0, 0]),
-                             ("ndcube_4d_ln_lt_l_t", np.s_[..., 0, 0]),
-                             ("ndcube_4d_ln_lt_l_t", np.s_[1:2, 1:2, 1, 1]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[:, :, 0]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[..., 0]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[1:2, 1:2, 0]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[..., 0]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[:, :, 0]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[1:2, 1:2, 0]),
+                             ("ndcube_4d_ln_lt_l_t", numpy.s_[:, :, 0, 0]),
+                             ("ndcube_4d_ln_lt_l_t", numpy.s_[..., 0, 0]),
+                             ("ndcube_4d_ln_lt_l_t", numpy.s_[1:2, 1:2, 1, 1]),
                          ),
                          indirect=("ndc",))
 def test_slicing_ln_lt(ndc, item):
@@ -68,15 +69,15 @@ def test_slicing_ln_lt(ndc, item):
 
 @pytest.mark.parametrize("ndc, item",
                          (
-                             ("ndcube_3d_ln_lt_l", np.s_[0, 0, :]),
-                             ("ndcube_3d_ln_lt_l", np.s_[0, 0, ...]),
-                             ("ndcube_3d_ln_lt_l", np.s_[1, 1, 1:2]),
-                             ("ndcube_3d_ln_lt_l", np.s_[0, 0, :]),
-                             ("ndcube_3d_ln_lt_l", np.s_[0, 0, ...]),
-                             ("ndcube_3d_ln_lt_l", np.s_[1, 1, 1:2]),
-                             ("ndcube_4d_ln_lt_l_t", np.s_[0, 0, :, 0]),
-                             ("ndcube_4d_ln_lt_l_t", np.s_[0, 0, ..., 0]),
-                             ("ndcube_4d_ln_lt_l_t", np.s_[1, 1, 1:2, 1]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[0, 0, :]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[0, 0, ...]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[1, 1, 1:2]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[0, 0, :]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[0, 0, ...]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[1, 1, 1:2]),
+                             ("ndcube_4d_ln_lt_l_t", numpy.s_[0, 0, :, 0]),
+                             ("ndcube_4d_ln_lt_l_t", numpy.s_[0, 0, ..., 0]),
+                             ("ndcube_4d_ln_lt_l_t", numpy.s_[1, 1, 1:2, 1]),
                          ),
                          indirect=("ndc",))
 def test_slicing_wave(ndc, item):
@@ -103,15 +104,15 @@ def test_slicing_wave(ndc, item):
 
 @pytest.mark.parametrize("ndc, item",
                          (
-                             ("ndcube_3d_ln_lt_l", np.s_[0, :, :]),
-                             ("ndcube_3d_ln_lt_l", np.s_[0, ...]),
-                             ("ndcube_3d_ln_lt_l", np.s_[1, 1:2]),
-                             ("ndcube_3d_ln_lt_l", np.s_[0, :, :]),
-                             ("ndcube_3d_ln_lt_l", np.s_[0, ...]),
-                             ("ndcube_3d_ln_lt_l", np.s_[1, :, 1:2]),
-                             ("ndcube_4d_ln_lt_l_t", np.s_[0, :, :, 0]),
-                             ("ndcube_4d_ln_lt_l_t", np.s_[0, ..., 0]),
-                             ("ndcube_4d_ln_lt_l_t", np.s_[1, 1:2, 1:2, 1]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[0, :, :]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[0, ...]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[1, 1:2]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[0, :, :]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[0, ...]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[1, :, 1:2]),
+                             ("ndcube_4d_ln_lt_l_t", numpy.s_[0, :, :, 0]),
+                             ("ndcube_4d_ln_lt_l_t", numpy.s_[0, ..., 0]),
+                             ("ndcube_4d_ln_lt_l_t", numpy.s_[1, 1:2, 1:2, 1]),
                          ),
                          indirect=("ndc",))
 def test_slicing_split_celestial(ndc, item):
@@ -135,9 +136,9 @@ def test_slicing_split_celestial(ndc, item):
     assert set(wcs.world_axis_physical_types) == {"custom:pos.helioprojective.lat",
                                                   "custom:pos.helioprojective.lon",
                                                   "em.wl"}
-    assert np.allclose(wcs.axis_correlation_matrix, np.array([[True, False],
-                                                              [False, True],
-                                                              [False, True]], dtype=bool))
+    assert np.allclose(wcs.axis_correlation_matrix, np.asarray([[True, False],
+                                                                [False, True],
+                                                                [False, True]], dtype=bool))
 
 
 def test_slicing_preserves_global_coords(ndcube_3d_ln_lt_l):
@@ -211,7 +212,7 @@ def test_axis_world_coords_empty_ec(ndcube_3d_l_ln_lt_ectime):
 def test_axis_world_coords_complex_ec(ndcube_4d_ln_lt_l_t):
     cube = ndcube_4d_ln_lt_l_t
     ec_shape = cube.data.shape[1:3]
-    data = np.arange(np.product(ec_shape)).reshape(ec_shape) * u.m / u.s
+    data = np.arange(np.prod(np.asarray(ec_shape))).reshape(ec_shape) * u.m / u.s
 
     # The lookup table has to be in world order so transpose it.
     cube.extra_coords.add('velocity', (2, 1), data.T)
@@ -250,8 +251,8 @@ def test_axis_world_coords_single_pixel_corners(axes, ndcube_3d_ln_lt_l):
 
 @pytest.mark.parametrize("ndc, item",
                          (
-                             ("ndcube_3d_ln_lt_l", np.s_[0, 0, :]),
-                             ("ndcube_3d_ln_lt_l", np.s_[0, 0, ...]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[0, 0, :]),
+                             ("ndcube_3d_ln_lt_l", numpy.s_[0, 0, ...]),
                          ),
                          indirect=("ndc",))
 def test_axis_world_coords_sliced_all_3d(ndc, item):
@@ -264,8 +265,8 @@ def test_axis_world_coords_sliced_all_3d(ndc, item):
 
 @pytest.mark.parametrize("ndc, item",
                          (
-                             ("ndcube_4d_ln_lt_l_t", np.s_[0, 0, :, 0]),
-                             ("ndcube_4d_ln_lt_l_t", np.s_[0, 0, ..., 0]),
+                             ("ndcube_4d_ln_lt_l_t", numpy.s_[0, 0, :, 0]),
+                             ("ndcube_4d_ln_lt_l_t", numpy.s_[0, 0, ..., 0]),
                          ),
                          indirect=("ndc",))
 def test_axis_world_coords_sliced_all_4d(ndc, item):
@@ -778,7 +779,7 @@ def test_reproject_shape_out(ndcube_4d_ln_l_t_lt, wcs_4d_lt_t_l_ln):
 
 def test_wcs_type_after_init(ndcube_3d_ln_lt_l, wcs_3d_l_lt_ln):
     # Generate a low level WCS
-    slices = np.s_[:, :, 0]
+    slices = numpy.s_[:, :, 0]
     low_level_wcs = SlicedLowLevelWCS(wcs_3d_l_lt_ln, slices)
     # Generate an NDCube using the low level WCS
     cube = NDCube(ndcube_3d_ln_lt_l.data[slices], low_level_wcs)
@@ -795,26 +796,26 @@ def test_rebin(ndcube_3d_l_ln_lt_ectime):
     output_time, = output.axis_world_coords(wcs=output.extra_coords)
 
     # Build expected cube contents.
-    expected_data = np.array([[3840, 3860, 3880, 3900, 3920, 3940, 3960, 3980],
-                              [4160, 4180, 4200, 4220, 4240, 4260, 4280, 4300]])
+    expected_data = np.asarray([[3840, 3860, 3880, 3900, 3920, 3940, 3960, 3980],
+                                [4160, 4180, 4200, 4220, 4240, 4260, 4280, 4300]])
     expected_mask = np.zeros(expected_data.shape, dtype=bool)
     expected_uncertainty = None
     expected_unit = cube.unit
     expected_meta = cube.meta
-    expected_Tx = np.array([[9.99999999, 19.99999994, 29.99999979, 39.9999995,
+    expected_Tx = np.asarray([[9.99999999, 19.99999994, 29.99999979, 39.9999995,
                              49.99999902, 59.99999831, 69.99999731, 79.99999599],
-                            [9.99999999, 19.99999994, 29.99999979, 39.9999995,
+                              [9.99999999, 19.99999994, 29.99999979, 39.9999995,
                              49.99999902, 59.99999831, 69.99999731, 79.99999599]]) * u.arcsec
-    expected_Ty = np.array([[-14.99999996, -14.9999999, -14.99999981, -14.99999969,
+    expected_Ty = np.asarray([[-14.99999996, -14.9999999, -14.99999981, -14.99999969,
                              -14.99999953, -14.99999934, -14.99999911, -14.99999885],
-                            [-4.99999999, -4.99999998, -4.99999995, -4.9999999,
+                              [-4.99999999, -4.99999998, -4.99999995, -4.9999999,
                              -4.99999985, -4.99999979, -4.99999971, -4.99999962]]) * u.arcsec
     expected_spec = SpectralCoord([1.02e-09], unit=u.m)
     expected_time = Time([51544.00104167, 51544.00243056], format="mjd", scale="utc")
     expected_time.format = "fits"
 
     # Confirm output is as expected.
-    assert (output.dimensions.value == np.array([1, 2, 8])).all()
+    assert (output.dimensions.value == np.asarray([1, 2, 8])).all()
     assert (output.data == expected_data).all()
     assert (output.mask == expected_mask).all()
     assert output.uncertainty == expected_uncertainty
@@ -853,28 +854,28 @@ def test_rebin_uncerts(ndcube_2d_ln_lt_uncert):
     bin_shape = (2, 4)
     output = cube.rebin(bin_shape, operation=np.mean, propagate_uncertainties=True)
     output_uncert = output.uncertainty.array
-    expected_uncert = (np.array([[2.73495887,  3.68239053,  4.7116876],
-                                 [9.07524104, 10.1882285, 11.30486621],
-                                 [15.79240324, 16.91744662, 18.0432813],
-                                 [22.55216176, 23.68037162, 24.80886938],
-                                 [29.32507459, 30.45455631, 31.58417325]])
-                       / np.array(bin_shape).prod())
+    expected_uncert = (np.asarray([[2.73495887,  3.68239053,  4.7116876],
+                                   [9.07524104, 10.1882285, 11.30486621],
+                                   [15.79240324, 16.91744662, 18.0432813],
+                                   [22.55216176, 23.68037162, 24.80886938],
+                                   [29.32507459, 30.45455631, 31.58417325]])
+                       / np.asarray(bin_shape).prod())
     assert np.allclose(output_uncert, expected_uncert)
 
 
 def test_rebin_some_masked_uncerts(ndcube_2d_ln_lt_mask_uncert):
     cube = ndcube_2d_ln_lt_mask_uncert
     bin_shape = (2, 4)
-    expected_data = np.array([[7.5,  11.5,  15.5],
-                              [31.5,  35.5,  39.5],
-                              [55.5,  59.5,  63.5],
-                              [79.5,  83.5,  87.5],
-                              [103.5, 107.5, 111.5]])
-    expected_uncert = np.array([[0.34186986, 0.46029882, 0.58896095],
-                                [1.13440513, 1.27352856, 1.41310828],
-                                [1.9740504, 2.11468083, 2.25541016],
-                                [2.81902022, 2.96004645, 3.10110867],
-                                [3.66563432, 3.80681954, 3.94802166]])
+    expected_data = np.asarray([[7.5,  11.5,  15.5],
+                                [31.5,  35.5,  39.5],
+                                [55.5,  59.5,  63.5],
+                                [79.5,  83.5,  87.5],
+                                [103.5, 107.5, 111.5]])
+    expected_uncert = np.asarray([[0.34186986, 0.46029882, 0.58896095],
+                                  [1.13440513, 1.27352856, 1.41310828],
+                                  [1.9740504, 2.11468083, 2.25541016],
+                                  [2.81902022, 2.96004645, 3.10110867],
+                                  [3.66563432, 3.80681954, 3.94802166]])
     expected_mask = np.zeros((5, 3), dtype=bool)
     expected_mask[:3, 0] = True
     # Execute function and assert result is as expected.
@@ -889,16 +890,16 @@ def test_rebin_some_masked_uncerts(ndcube_2d_ln_lt_mask_uncert):
 def test_rebin_some_masked_uncerts_exclude_masked_values(ndcube_2d_ln_lt_mask_uncert):
     cube = ndcube_2d_ln_lt_mask_uncert
     bin_shape = (2, 4)
-    expected_data = np.array([[6.71428571,  11.5,  15.5],
-                              [31.5,  35.5,  39.5],
-                              [0.,  59.5,  63.5],
-                              [79.5,  83.5,  87.5],
-                              [103.5, 107.5, 111.5]])
-    expected_uncert = np.array([[0.34374884, 0.46029882, 0.58896095],
-                                [1.30586285, 1.27352856, 1.41310828],
-                                [0., 2.11468083, 2.25541016],
-                                [2.81902022, 2.96004645, 3.10110867],
-                                [3.66563432, 3.80681954, 3.94802166]])
+    expected_data = np.asarray([[6.71428571,  11.5,  15.5],
+                                [31.5,  35.5,  39.5],
+                                [0.,  59.5,  63.5],
+                                [79.5,  83.5,  87.5],
+                                [103.5, 107.5, 111.5]])
+    expected_uncert = np.asarray([[0.34374884, 0.46029882, 0.58896095],
+                                  [1.30586285, 1.27352856, 1.41310828],
+                                  [0., 2.11468083, 2.25541016],
+                                  [2.81902022, 2.96004645, 3.10110867],
+                                  [3.66563432, 3.80681954, 3.94802166]])
     expected_mask = np.zeros((5, 3), dtype=bool)
     expected_mask[2, 0] = True
     # Execute function and assert result is as expected.
@@ -1004,8 +1005,8 @@ def check_arithmetic_value_and_units(cube_new, data_expected):
 @pytest.mark.parametrize('value', [
     10 * u.ct,
     u.Quantity([10], u.ct),
-    u.Quantity(np.random.rand(12), u.ct),
-    u.Quantity(np.random.rand(10, 12), u.ct),
+    u.Quantity(numpy.random.rand(12), u.ct),
+    u.Quantity(numpy.random.rand(10, 12), u.ct),
 ])
 def test_cube_arithmetic_add(ndcube_2d_ln_lt_units, value):
     cube_quantity = u.Quantity(ndcube_2d_ln_lt_units.data, ndcube_2d_ln_lt_units.unit)
@@ -1017,8 +1018,8 @@ def test_cube_arithmetic_add(ndcube_2d_ln_lt_units, value):
 @pytest.mark.parametrize('value', [
     10 * u.ct,
     u.Quantity([10], u.ct),
-    u.Quantity(np.random.rand(12), u.ct),
-    u.Quantity(np.random.rand(10, 12), u.ct),
+    u.Quantity(numpy.random.rand(12), u.ct),
+    u.Quantity(numpy.random.rand(10, 12), u.ct),
 ])
 def test_cube_arithmetic_radd(ndcube_2d_ln_lt_units, value):
     cube_quantity = u.Quantity(ndcube_2d_ln_lt_units.data, ndcube_2d_ln_lt_units.unit)
@@ -1029,8 +1030,8 @@ def test_cube_arithmetic_radd(ndcube_2d_ln_lt_units, value):
 @pytest.mark.parametrize('value', [
     10 * u.ct,
     u.Quantity([10], u.ct),
-    u.Quantity(np.random.rand(12), u.ct),
-    u.Quantity(np.random.rand(10, 12), u.ct),
+    u.Quantity(numpy.random.rand(12), u.ct),
+    u.Quantity(numpy.random.rand(10, 12), u.ct),
 ])
 def test_cube_arithmetic_subtract(ndcube_2d_ln_lt_units, value):
     cube_quantity = u.Quantity(ndcube_2d_ln_lt_units.data, ndcube_2d_ln_lt_units.unit)
@@ -1041,8 +1042,8 @@ def test_cube_arithmetic_subtract(ndcube_2d_ln_lt_units, value):
 @pytest.mark.parametrize('value', [
     10 * u.ct,
     u.Quantity([10], u.ct),
-    u.Quantity(np.random.rand(12), u.ct),
-    u.Quantity(np.random.rand(10, 12), u.ct),
+    u.Quantity(numpy.random.rand(12), u.ct),
+    u.Quantity(numpy.random.rand(10, 12), u.ct),
 ])
 def test_cube_arithmetic_rsubtract(ndcube_2d_ln_lt_units, value):
     cube_quantity = u.Quantity(ndcube_2d_ln_lt_units.data, ndcube_2d_ln_lt_units.unit)
@@ -1053,11 +1054,11 @@ def test_cube_arithmetic_rsubtract(ndcube_2d_ln_lt_units, value):
 @pytest.mark.parametrize('value', [
     10 * u.ct,
     u.Quantity([10], u.ct),
-    u.Quantity(np.random.rand(12), u.ct),
-    u.Quantity(np.random.rand(10, 12), u.ct),
+    u.Quantity(numpy.random.rand(12), u.ct),
+    u.Quantity(numpy.random.rand(10, 12), u.ct),
     10.0,
-    np.random.rand(12),
-    np.random.rand(10, 12),
+    numpy.random.rand(12),
+    numpy.random.rand(10, 12),
 ])
 def test_cube_arithmetic_multiply(ndcube_2d_ln_lt_units, value):
     cube_quantity = u.Quantity(ndcube_2d_ln_lt_units.data, ndcube_2d_ln_lt_units.unit)
@@ -1069,11 +1070,11 @@ def test_cube_arithmetic_multiply(ndcube_2d_ln_lt_units, value):
 @pytest.mark.parametrize('value', [
     10 * u.ct,
     u.Quantity([10], u.ct),
-    u.Quantity(np.random.rand(12), u.ct),
-    u.Quantity(np.random.rand(10, 12), u.ct),
+    u.Quantity(numpy.random.rand(12), u.ct),
+    u.Quantity(numpy.random.rand(10, 12), u.ct),
     10.0,
-    np.random.rand(12),
-    np.random.rand(10, 12),
+    numpy.random.rand(12),
+    numpy.random.rand(10, 12),
 ])
 def test_cube_arithmetic_rmultiply(ndcube_2d_ln_lt_units, value):
     cube_quantity = u.Quantity(ndcube_2d_ln_lt_units.data, ndcube_2d_ln_lt_units.unit)
@@ -1085,11 +1086,11 @@ def test_cube_arithmetic_rmultiply(ndcube_2d_ln_lt_units, value):
     10 * u.ct,
     u.Quantity([10], u.ct),
     u.Quantity([2], u.s),
-    u.Quantity(np.random.rand(12), u.ct),
-    u.Quantity(np.random.rand(10, 12), u.ct),
+    u.Quantity(numpy.random.rand(12), u.ct),
+    u.Quantity(numpy.random.rand(10, 12), u.ct),
     10.0,
-    np.random.rand(12),
-    np.random.rand(10, 12),
+    numpy.random.rand(12),
+    numpy.random.rand(10, 12),
 ])
 def test_cube_arithmetic_divide(ndcube_2d_ln_lt_units, value):
     cube_quantity = u.Quantity(ndcube_2d_ln_lt_units.data, ndcube_2d_ln_lt_units.unit)

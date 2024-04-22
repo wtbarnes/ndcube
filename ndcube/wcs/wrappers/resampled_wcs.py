@@ -1,4 +1,4 @@
-import numpy as np
+import numpy.array_api as np
 from astropy.wcs.wcsapi.wrappers.base import BaseWCSWrapper
 
 __all__ = ['ResampledLowLevelWCS']
@@ -28,12 +28,12 @@ class ResampledLowLevelWCS(BaseWCSWrapper):
         self._wcs = wcs
         if np.isscalar(factor):
             factor = [factor] * self.pixel_n_dim
-        self._factor = np.array(factor)
+        self._factor = np.asarray(factor)
         if len(self._factor) != self.pixel_n_dim:
             raise ValueError(f"Length of factor must equal number of dimensions {self.pixel_n_dim}.")
         if np.isscalar(offset):
             offset = [offset] * self.pixel_n_dim
-        self._offset = np.array(offset)
+        self._offset = np.asarray(offset)
         if len(self._offset) != self.pixel_n_dim:
             raise ValueError(f"Length of offset must equal number of dimensions {self.pixel_n_dim}.")
 

@@ -3,7 +3,7 @@ from functools import wraps
 from itertools import chain
 
 import astropy.nddata
-import numpy as np
+import numpy.array_api as np
 from astropy.wcs.wcsapi import BaseHighLevelWCS, HighLevelWCSWrapper, SlicedLowLevelWCS
 
 from ndcube.utils import wcs as wcs_utils
@@ -136,7 +136,7 @@ def get_crop_item_from_points(points, wcs, crop_by_values):
         if crop_by_values:
             point_inputs_array_axes = []
             for i in range(wcs.world_n_dim):
-                pix_axes = np.array(
+                pix_axes = np.asarray(
                     wcs_utils.world_axis_to_pixel_axes(i, wcs.axis_correlation_matrix))
                 point_inputs_array_axes.append(tuple(
                     wcs_utils.convert_between_array_and_pixel_axes(pix_axes, wcs.pixel_n_dim)))
@@ -156,11 +156,11 @@ def get_crop_item_from_points(points, wcs, crop_by_values):
         array_axes_without_input = set(range(wcs.pixel_n_dim)) - array_axes_with_input
         # Slice out the axes that do not correspond to a coord
         # from the WCS and the input point.
-        wcs_slice = np.array([slice(None)] * wcs.pixel_n_dim)
+        wcs_slice = np.asarray([slice(None)] * wcs.pixel_n_dim)
         if len(array_axes_without_input):
-            wcs_slice[np.array(list(array_axes_without_input))] = 0
+            wcs_slice[np.asarray(list(array_axes_without_input))] = 0
         sliced_wcs = SlicedLowLevelWCS(wcs, slices=tuple(wcs_slice))
-        sliced_point = np.array(point, dtype=object)[np.array(point_indices_with_inputs)]
+        sliced_point = np.asarray(point, dtype=object)[np.asarray(point_indices_with_inputs)]
         # Derive the array indices of the input point and place each index
         # in the list corresponding to its axis.
         if crop_by_values:
@@ -252,7 +252,7 @@ def propagate_rebin_uncertainties(uncertainty, data, mask, operation, operation_
     if not propagation_operation:
         if operation in {np.sum, np.nansum, np.mean, np.nanmean}:
             propagation_operation = np.add
-        elif operation in {np.product, np.prod, np.nanprod}:
+        elif operation in {np.prod, np.prod, np.nanprod}:
             propagation_operation = np.multiply
         else:
             raise ValueError("propagation_operation not recognized.")
